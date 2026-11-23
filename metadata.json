@@ -1,0 +1,6 @@
+{
+  "name": "DG by Douaa | أزياء التخرج في الجزائر",
+  "description": "متجر جزائري فاخر لأزياء التخرج: شالات مطرزة باسمك وشعار جامعتك، روبات بمقاسك، وقبعات وتنسيقات مخصصة مع التوصيل لكل الولايات.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

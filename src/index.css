@@ -1,0 +1,234 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-canvas: #FFF9FA;
+    --bg-surface: #FFFFFF;
+    --bg-subtle: #FCE8EF;
+    --text-primary: #2A151D;
+    --text-muted: #6E4E5A;
+    --border-hairline: #F2D7DF;
+    --accent-burgundy: #8E244D;
+    --accent-burgundy-hover: #6D1839;
+    --accent-soft-pink: #FCE8EF;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    color-scheme: light;
+  }
+
+  body {
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: #8E244D;
+    color: #FFFFFF;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid #8E244D;
+    outline-offset: 2px;
+  }
+}
+
+.font-editorial {
+  font-family: 'Amiri', serif;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============ الانتقالات السلسة ============ */
+.section-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.section-reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.catalog-enter {
+  animation: catalogFadeSlide 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes catalogFadeSlide {
+  from { opacity: 0; transform: translateX(18px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ============ Toolbar العائم ============ */
+.admin-floating-toolbar {
+  display: none;
+  position: fixed;
+  gap: 4px;
+  padding: 4px;
+  background: #FFFFFF;
+  border: 1px solid #F2D7DF;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(42, 21, 29, 0.14);
+  z-index: 9999;
+  align-items: center;
+}
+.admin-floating-toolbar button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  background: #FFF3F6;
+  color: #2A151D;
+  transition: background 0.15s, transform 0.15s;
+}
+.admin-floating-toolbar button:hover {
+  background: #FCE8EF;
+  transform: scale(1.08);
+}
+.admin-floating-toolbar button[data-action="delete"]:hover {
+  background: #FFE4E6;
+}
+
+[data-admin-text="true"] {
+  transition: background 0.15s ease;
+}
+[data-admin-text="true"]:hover {
+  background: rgba(142, 36, 77, 0.08);
+}
+[contenteditable="true"]:focus {
+  outline: 2px solid #8E244D !important;
+  background: rgba(252, 232, 239, 0.65) !important;
+  box-shadow: 0 0 0 4px rgba(142, 36, 77, 0.12);
+  border-radius: 4px;
+}
+
+.admin-inserted-img {
+  display: block;
+  max-width: 100%;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(42, 21, 29, 0.14);
+}
+/* =========================================
+   View Transitions API — SPA transitions
+   ========================================= */
+
+::view-transition-old(root) {
+  animation: vt-fade-out 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+::view-transition-new(root) {
+  animation: vt-fade-in 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes vt-fade-out {
+  to { opacity: 0; transform: scale(0.985); }
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; transform: scale(1.015); }
+}
+
+::view-transition-old(product-hero),
+::view-transition-new(product-hero) {
+  animation-duration: 0.45s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  object-fit: cover;
+  overflow: hidden;
+}
+
+header {
+  view-transition-name: site-header;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-old(product-hero),
+  ::view-transition-new(product-hero) {
+    animation: none !important;
+  }
+}
+/* =========================================================
+   Smooth Section & Product Transitions (زدناهم هنا)
+   ========================================================= */
+
+/* 1. أنيميشن دخول الصفحة/القسم (Fade + Slide up) */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.catalog-enter {
+  animation: fadeSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* 2. تأثير المودال تاع الحذف (Modal) */
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-in.zoom-in-95 {
+  animation: zoomIn 0.2s ease-out forwards;
+}
+
+/* 3. تأثير الإشعار (Toast) */
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.animate-in.slide-in-from-bottom-5 {
+  animation: slideInFromBottom 0.3s ease-out forwards;
+}
+/* التدرج السلس للدخول للأقسام */
+@keyframes smoothEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.catalog-enter {
+  animation: smoothEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
